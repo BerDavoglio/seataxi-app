@@ -5,7 +5,7 @@ import '../../../ui.dart';
 
 class AdminMaritmeBaseCrudPage extends StatefulWidget {
   final AdminMaritmeModel? object;
-  AdminMaritmeBaseCrudPage({super.key, this.object});
+  const AdminMaritmeBaseCrudPage({super.key, this.object});
 
   @override
   State<AdminMaritmeBaseCrudPage> createState() =>

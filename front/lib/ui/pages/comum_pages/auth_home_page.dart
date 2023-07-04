@@ -5,6 +5,8 @@ import '../../../infra/infra.dart';
 import '../pages.dart';
 
 class AuthOrHomeScreen extends StatelessWidget {
+  const AuthOrHomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     LoginProvider loginProvider = Provider.of(context);

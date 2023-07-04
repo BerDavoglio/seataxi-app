@@ -69,14 +69,14 @@ class _HistoryMapPageState extends State<HistoryMapPage> {
             },
             markers: {
               Marker(
-                markerId: MarkerId('Origin'),
+                markerId: const MarkerId('Origin'),
                 position: LatLng(
                   _origin[0],
                   _origin[1],
                 ),
               ),
               Marker(
-                markerId: MarkerId('Origin'),
+                markerId: const MarkerId('Origin'),
                 position: LatLng(
                   _destination[0],
                   _destination[1],

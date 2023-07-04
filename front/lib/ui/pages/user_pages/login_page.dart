@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -161,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               TextButton.icon(
                                 label: Text(
-                                  '${_authStatus == AuthStatus.Login ? "REGISTRAR" : 'ENTRAR'}',
+                                  _authStatus == AuthStatus.Login ? "REGISTRAR" : 'ENTRAR',
                                 ),
                                 icon: const Icon(Icons.person),
                                 onPressed: () {

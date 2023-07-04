@@ -128,7 +128,7 @@ class _IdleHomePageState extends State<IdleHomePage> {
                   },
                   markers: {
                     Marker(
-                      markerId: MarkerId('Person'),
+                      markerId: const MarkerId('Person'),
                       icon: BitmapDescriptor.defaultMarkerWithHue(
                           BitmapDescriptor.hueMagenta),
                       position: LatLng(
@@ -137,14 +137,14 @@ class _IdleHomePageState extends State<IdleHomePage> {
                       ),
                     ),
                     Marker(
-                      markerId: MarkerId('Origin'),
+                      markerId: const MarkerId('Origin'),
                       position: LatLng(
                         _origin[0],
                         _origin[1],
                       ),
                     ),
                     Marker(
-                      markerId: MarkerId('Origin'),
+                      markerId: const MarkerId('Origin'),
                       position: LatLng(
                         _destination[0],
                         _destination[1],

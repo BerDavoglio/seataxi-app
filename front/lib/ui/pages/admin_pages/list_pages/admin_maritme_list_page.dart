@@ -168,8 +168,8 @@ class _AdminMaritmeListPageState extends State<AdminMaritmeListPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AdminMaritmeBaseCrudPage(
-                object: const AdminMaritmeModel(
+              builder: (context) => const AdminMaritmeBaseCrudPage(
+                object: AdminMaritmeModel(
                   id: 0,
                   title: '',
                   coordLat: '',
