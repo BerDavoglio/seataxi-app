@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:front/data/data.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
+import 'package:provider/provider.dart';
 
+import '../../../infra/infra.dart';
 import '../../ui.dart';
 
 class NavigatorHomePage extends StatefulWidget {
@@ -12,59 +13,13 @@ class NavigatorHomePage extends StatefulWidget {
 }
 
 class _NavigatorHomePageState extends State<NavigatorHomePage> {
-  NavigatorListModel? _acceptTravel;
+  int? _acceptTravelID;
   final TextEditingController _valueController = TextEditingController();
-
-  List<NavigatorListModel> data = [
-    const NavigatorListModel(
-      id: 2,
-      name_origin: 'Ilha da Conceição',
-      name_destination: 'Companhia de Desenvolvimento da Pesca',
-      origin: [-22.87532010837934, -43.11636197595772],
-      destination: [-22.87664469785081, -43.1195698978448],
-      people_quantity: 30,
-      user_stars: 4.6,
-    ),
-    const NavigatorListModel(
-      id: 4,
-      name_origin: 'Ilha da Conceição',
-      name_destination: 'NENAVAL ENGENHARIA NAVAL E OFFSHORE LTDA',
-      origin: [-22.87532010837934, -43.11636197595772],
-      destination: [-22.87990669158874, -43.12118995199219],
-      people_quantity: 25,
-      user_stars: 4.2,
-    ),
-    const NavigatorListModel(
-      id: 8,
-      name_origin: 'Ilha da Conceição',
-      name_destination: 'Estaleiro Mauá S/A',
-      origin: [-22.87532010837934, -43.11636197595772],
-      destination: [-22.877257563310657, -43.12885034120929],
-      people_quantity: 10,
-      user_stars: 4.8,
-    ),
-    const NavigatorListModel(
-      id: 12,
-      name_origin: 'Ilha da Conceição',
-      name_destination: 'Companhia de Desenvolvimento da Pesca',
-      origin: [-22.87532010837934, -43.11636197595772],
-      destination: [-22.87664469785081, -43.1195698978448],
-      people_quantity: 56,
-      user_stars: 3.6,
-    ),
-    const NavigatorListModel(
-      id: 22,
-      name_origin: 'Ilha da Conceição',
-      name_destination: 'NEstação General Dutra - EFL',
-      origin: [-22.87532010837934, -43.11636197595772],
-      destination: [-22.882535999145635, -43.11608302627564],
-      people_quantity: 7,
-      user_stars: 4.9,
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
+    TripProvider tripProvider = Provider.of(context);
+
     return Scaffold(
       drawer: homeDrawer(context),
       appBar: AppBar(
@@ -85,7 +40,7 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
         children: [
           ListView.builder(
             padding: const EdgeInsets.all(8),
-            itemCount: data.length,
+            itemCount: tripProvider.tripList.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
@@ -113,8 +68,9 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
                                         ),
                                       ),
                                       Expanded(
-                                          child:
-                                              Text(data[index].id.toString())),
+                                          child: Text(tripProvider
+                                              .tripList[index].id
+                                              .toString())),
                                     ],
                                   ),
                                   Row(
@@ -126,7 +82,11 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
                                         ),
                                       ),
                                       Expanded(
-                                          child: Text(data[index].name_origin)),
+                                        child: Text(
+                                          tripProvider.tripList[index].origin_id
+                                              .toString(),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   Row(
@@ -138,8 +98,12 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
                                         ),
                                       ),
                                       Expanded(
-                                          child: Text(
-                                              data[index].name_destination)),
+                                        child: Text(
+                                          tripProvider
+                                              .tripList[index].destination_id
+                                              .toString(),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   Row(
@@ -152,22 +116,22 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
                                       ),
                                       Expanded(
                                           child: Text(
-                                              '${data[index].people_quantity}')),
+                                              '${tripProvider.tripList[index].people}')),
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        'Estrelas do Usuário: ',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                              '${data[index].user_stars}')),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   children: [
+                                  //     const Text(
+                                  //       'Estrelas do Usuário: ',
+                                  //       style: TextStyle(
+                                  //         fontWeight: FontWeight.bold,
+                                  //       ),
+                                  //     ),
+                                  //     Expanded(
+                                  //         child: Text(
+                                  //             '${tripProvider.tripList[index].user_stars}')),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             ),
@@ -192,8 +156,7 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
                                 setState(
                                   () {
                                     setState(() {
-                                      _acceptTravel = data[index];
-                                      ;
+                                      _acceptTravelID = index;
                                     });
                                   },
                                 );
@@ -219,8 +182,9 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  data.removeWhere(
-                                      (item) => item.id == data[index].id);
+                                  tripProvider.tripList.removeWhere((item) =>
+                                      item.id ==
+                                      tripProvider.tripList[index].id);
                                 });
                               },
                               child: const Text(
@@ -239,7 +203,7 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
               );
             },
           ),
-          if (_acceptTravel != null)
+          if (_acceptTravelID != null)
             FractionallySizedBox(
               widthFactor: 1,
               heightFactor: 1,
@@ -268,7 +232,7 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
                           ),
                         ),
                         Text(
-                          'ID: ${_acceptTravel!.id.toString()}',
+                          'ID: ${_acceptTravelID.toString()}',
                           style: const TextStyle(
                             fontSize: 20,
                           ),
@@ -285,7 +249,7 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
                               ),
                               Flexible(
                                 child: Text(
-                                  _acceptTravel!.name_origin,
+                                  tripProvider.tripList[_acceptTravelID!].origin_id.toString(),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -305,7 +269,7 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
                               ),
                               Flexible(
                                 child: Text(
-                                  _acceptTravel!.name_destination,
+                                  tripProvider.tripList[_acceptTravelID!].destination_id.toString(),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -346,15 +310,15 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
                           ),
                           onPressed: () {
                             // Salvar no servidor qual o valor da corrida.
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => IdleHomePage(
-                                  origin: _acceptTravel!.origin,
-                                  destination: _acceptTravel!.destination,
-                                ),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => IdleHomePage(
+                            //       origin: tripProvider.tripList[_acceptTravelID!].origin_id,
+                            //       destination: tripProvider.tripList[_acceptTravelID!].origin_id,
+                            //     ),
+                            //   ),
+                            // );
                           },
                           child: const Text(
                             'Enviar Valor',

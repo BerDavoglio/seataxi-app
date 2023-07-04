@@ -16,5 +16,6 @@ router.get('/accept/:id/', loginRequired, tripController.getAccept);
 router.get('/finish/:id/', loginRequired, tripController.finishTrip);
 
 router.get('/:id/', loginRequired, tripController.indexByPk);
+router.get('/user/', loginRequired, tripController.indexUser);
 
 export default router;

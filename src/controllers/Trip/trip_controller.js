@@ -203,6 +203,25 @@ class TripController {
       return res.status(400).json({ errors: err.message });
     }
   }
+
+  // Show to Navigator all the Trips:
+  async indexUser(req, res) {
+    try {
+      const trips = await Trip.findAll({
+        where: {
+          user_id: req.userId,
+          finished: false,
+        },
+      });
+      if (!trips) {
+        return res.status(400).json({ errors: ['Trips not Found'] });
+      }
+
+      return res.json(trips);
+    } catch (err) {
+      return res.status(400).json({ errors: err.message });
+    }
+  }
 }
 
 export default new TripController();
