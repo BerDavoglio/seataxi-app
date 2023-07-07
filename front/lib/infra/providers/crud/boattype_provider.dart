@@ -11,8 +11,8 @@ import '../../../ui/ui.dart';
 import '../../infra.dart';
 
 class BoattypeProvider with ChangeNotifier {
-  late List<AdminTypeModel> _boatType;
-  List<AdminTypeModel> get boatType => _boatType;
+  late List<AdminTypeModel> _boattypeList;
+  List<AdminTypeModel> get boattypeList => _boattypeList;
 
   Future<void> createBoattype(
     BuildContext context,
@@ -42,8 +42,6 @@ class BoattypeProvider with ChangeNotifier {
             notifyListeners(),
           },
         );
-        await loginProvider.requestPerfil(context);
-        Navigator.of(context).pop();
         notifyListeners();
       } else if (v['errors'] != '') {
         await comumDialog(
@@ -83,7 +81,7 @@ class BoattypeProvider with ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        _boatType = jsonDecode(response.body);
+        _boattypeList = jsonDecode(response.body);
         notifyListeners();
       } else if (jsonDecode(response.body)['errors'] != '') {
         await comumDialog(

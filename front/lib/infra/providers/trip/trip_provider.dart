@@ -158,12 +158,12 @@ class TripProvider with ChangeNotifier {
     }
   }
 
-  Future getValue(BuildContext context, int id) async {
+  Future getValue(BuildContext context) async {
     LoginProvider loginProvider = Provider.of(context);
 
     try {
       final response = await http.get(
-        Uri.parse('${Constants.BACKEND_BASE_URL}/trip/value/$id/'),
+        Uri.parse('${Constants.BACKEND_BASE_URL}/trip/value/${_trip!.id}/'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -199,11 +199,11 @@ class TripProvider with ChangeNotifier {
     }
   }
 
-  Future<void> denyUser(BuildContext context, int id) async {
+  Future<void> denyUser(BuildContext context) async {
     LoginProvider loginProvider = Provider.of(context);
     try {
       final response = await http.put(
-        Uri.parse('${Constants.BACKEND_BASE_URL}/trip/value/$id/deny'),
+        Uri.parse('${Constants.BACKEND_BASE_URL}/trip/value/${_trip!.id}/deny'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -248,11 +248,11 @@ class TripProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateAccept(BuildContext context, int id) async {
+  Future<void> updateAccept(BuildContext context) async {
     LoginProvider loginProvider = Provider.of(context);
     try {
       final response = await http.put(
-        Uri.parse('${Constants.BACKEND_BASE_URL}/trip/accept/$id'),
+        Uri.parse('${Constants.BACKEND_BASE_URL}/trip/accept/${_trip!.id}'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -338,11 +338,11 @@ class TripProvider with ChangeNotifier {
     }
   }
 
-  Future<void> finishTrip(BuildContext context, int id) async {
+  Future<void> finishTrip(BuildContext context) async {
     LoginProvider loginProvider = Provider.of(context);
     try {
       final response = await http.put(
-        Uri.parse('${Constants.BACKEND_BASE_URL}/trip/finish/$id'),
+        Uri.parse('${Constants.BACKEND_BASE_URL}/trip/finish/${_trip!.id}'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -433,8 +433,8 @@ class TripProvider with ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
+        _tripList = jsonDecode(response.body);
         notifyListeners();
-        return jsonDecode(response.body);
       } else if (jsonDecode(response.body)['errors'] != '') {
         await comumDialog(
           context,
@@ -457,22 +457,5 @@ class TripProvider with ChangeNotifier {
         },
       );
     }
-  }
-
-  Future<void> comumDialog(
-      BuildContext context, String title, String content, Function func) {
-    return showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(title),
-        content: Text(content),
-        actions: [
-          TextButton(
-            onPressed: func(),
-            child: const Text('Ok'),
-          ),
-        ],
-      ),
-    );
   }
 }

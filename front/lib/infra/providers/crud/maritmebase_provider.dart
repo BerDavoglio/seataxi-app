@@ -13,6 +13,8 @@ import '../../infra.dart';
 class MaritmebaseProvider with ChangeNotifier {
   late List<AdminMaritmeModel> _maritmebaseList;
   List<AdminMaritmeModel> get maritmebaseList => _maritmebaseList;
+  late List<AdminMaritmeModel> _maritmebasePublicList;
+  List<AdminMaritmeModel> get maritmebasePublicList => _maritmebasePublicList;
 
   Future<void> createMaritmebase(
     BuildContext context,
@@ -84,6 +86,7 @@ class MaritmebaseProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         _maritmebaseList = jsonDecode(response.body);
+        _maritmebasePublicList = jsonDecode(response.body);
         notifyListeners();
       } else if (jsonDecode(response.body)['errors'] != '') {
         await comumDialog(
