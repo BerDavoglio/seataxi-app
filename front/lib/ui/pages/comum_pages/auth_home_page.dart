@@ -10,6 +10,7 @@ class AuthOrHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LoginProvider loginProvider = Provider.of(context);
+    
     return FutureBuilder(
       builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

@@ -3,16 +3,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:front/data/data.dart';
+import 'package:front/infra/infra.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
+import 'package:provider/provider.dart';
 
 import '../../ui.dart';
 
 class IdleHomePage extends StatefulWidget {
-  final List? origin;
-  final List? destination;
-  const IdleHomePage({super.key, this.origin, this.destination});
+  const IdleHomePage({super.key});
 
   @override
   State<IdleHomePage> createState() => _IdleHomePageState();
@@ -21,9 +22,6 @@ class IdleHomePage extends StatefulWidget {
 class _IdleHomePageState extends State<IdleHomePage> {
   Position? _position;
   final Completer<GoogleMapController> _controller = Completer();
-
-  late List _origin;
-  late List _destination;
 
   Future<Position> _determinePosition() async {
     LocationPermission permission;
@@ -67,11 +65,6 @@ class _IdleHomePageState extends State<IdleHomePage> {
           ),
         );
 
-        if (position.latitude == _destination[0] &&
-            position.longitude == _destination[1]) {
-          // Terminar corrida!
-        }
-
         setState(() => {});
       },
     );
@@ -82,8 +75,6 @@ class _IdleHomePageState extends State<IdleHomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getCurrentLocation();
     });
-    _origin = widget.origin!;
-    _destination = widget.destination!;
     super.initState();
   }
 
@@ -94,6 +85,16 @@ class _IdleHomePageState extends State<IdleHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    MaritmebaseProvider maritmebaseProvider = Provider.of(context);
+    TripProvider tripProvider = Provider.of(context);
+
+    List<AdminMaritmeModel> list = maritmebaseProvider.maritmebasePublicList;
+
+    int indexOrigin =
+        list.indexWhere((item) => item.id == tripProvider.trip?.origin_id);
+    int indexDestination =
+        list.indexWhere((item) => item.id == tripProvider.trip?.destination_id);
+
     return Scaffold(
       drawer: homeDrawer(context),
       appBar: AppBar(
@@ -121,8 +122,14 @@ class _IdleHomePageState extends State<IdleHomePage> {
                       color: Colors.blue,
                       width: 5,
                       points: [
-                        [_origin[0], _origin[1]],
-                        [_destination[0], _destination[1]]
+                        [
+                          list[indexOrigin].lat,
+                          list[indexOrigin].long,
+                        ],
+                        [
+                          list[indexDestination].lat,
+                          list[indexDestination].long,
+                        ]
                       ].map((e) => LatLng(e[0], e[1])).toList(),
                     )
                   },
@@ -139,15 +146,15 @@ class _IdleHomePageState extends State<IdleHomePage> {
                     Marker(
                       markerId: const MarkerId('Origin'),
                       position: LatLng(
-                        _origin[0],
-                        _origin[1],
+                        list[indexOrigin].lat,
+                        list[indexOrigin].long,
                       ),
                     ),
                     Marker(
                       markerId: const MarkerId('Origin'),
                       position: LatLng(
-                        _destination[0],
-                        _destination[1],
+                        list[indexDestination].lat,
+                        list[indexDestination].long,
                       ),
                     ),
                   },
@@ -167,8 +174,7 @@ class _IdleHomePageState extends State<IdleHomePage> {
                     child: PointerInterceptor(
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(AppRoutes.HOME);
+                          tripProvider.finishTrip(context);
                         },
                         child: Container(
                           color: Colors.amber,

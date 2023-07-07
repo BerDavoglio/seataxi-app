@@ -3,15 +3,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:front/infra/providers/crud/maritmebase_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
+import 'package:provider/provider.dart';
 
+import '../../../data/data.dart';
 import '../../ui.dart';
 
 class HistoryMapPage extends StatefulWidget {
-  final List? origin;
-  final List? destination;
-  const HistoryMapPage({super.key, this.origin, this.destination});
+  final int? originId;
+  final int? destinationId;
+  const HistoryMapPage({super.key, this.originId, this.destinationId});
 
   @override
   State<HistoryMapPage> createState() => _HistoryMapPageState();
@@ -20,13 +23,13 @@ class HistoryMapPage extends StatefulWidget {
 class _HistoryMapPageState extends State<HistoryMapPage> {
   final Completer<GoogleMapController> _controller = Completer();
 
-  late List _origin;
-  late List _destination;
+  late int _originId;
+  late int _destinationId;
 
   @override
   void initState() {
-    _origin = widget.origin!;
-    _destination = widget.destination!;
+    _originId = widget.originId!;
+    _destinationId = widget.destinationId!;
     super.initState();
   }
 
@@ -37,6 +40,13 @@ class _HistoryMapPageState extends State<HistoryMapPage> {
 
   @override
   Widget build(BuildContext context) {
+    MaritmebaseProvider maritmebaseProvider = Provider.of(context);
+
+    List<AdminMaritmeModel> list = maritmebaseProvider.maritmebasePublicList;
+
+    int indexOrigin = list.indexWhere((item) => item.id == _originId);
+    int indexDestination = list.indexWhere((item) => item.id == _destinationId);
+
     return Scaffold(
       drawer: homeDrawer(context),
       appBar: AppBar(
@@ -62,8 +72,14 @@ class _HistoryMapPageState extends State<HistoryMapPage> {
                 color: Colors.blue,
                 width: 5,
                 points: [
-                  [_origin[0], _origin[1]],
-                  [_destination[0], _destination[1]]
+                  [
+                    list[indexOrigin].lat,
+                    list[indexOrigin].long,
+                  ],
+                  [
+                    list[indexDestination].lat,
+                    list[indexDestination].long,
+                  ]
                 ].map((e) => LatLng(e[0], e[1])).toList(),
               )
             },
@@ -71,21 +87,24 @@ class _HistoryMapPageState extends State<HistoryMapPage> {
               Marker(
                 markerId: const MarkerId('Origin'),
                 position: LatLng(
-                  _origin[0],
-                  _origin[1],
+                  list[indexOrigin].lat,
+                  list[indexOrigin].long,
                 ),
               ),
               Marker(
                 markerId: const MarkerId('Origin'),
                 position: LatLng(
-                  _destination[0],
-                  _destination[1],
+                  list[indexDestination].lat,
+                  list[indexDestination].long,
                 ),
               ),
             },
             zoomControlsEnabled: false,
             initialCameraPosition: CameraPosition(
-              target: LatLng(_origin[0], _origin[1]),
+              target: LatLng(
+                list[indexOrigin].lat,
+                list[indexOrigin].long,
+              ),
               zoom: 15,
             ),
             onMapCreated: (mapController) {

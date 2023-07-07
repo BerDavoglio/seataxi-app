@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:front/infra/infra.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../../data/data.dart';
 import '../../ui.dart';
@@ -12,28 +14,12 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  final List<HistoryModel> _listHistory = [
-    HistoryModel(
-      id: 1,
-      date: DateTime.parse('2023-07-20 20:18:04Z'),
-      origin: [
-        -22.87532010837934,
-        -43.11636197595772,
-        'Ilha da Conceição',
-        'Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica',
-      ],
-      destination: [
-        -22.87664469785081,
-        -43.1195698978448,
-        'Companhia de Desenvolvimento da Pesca',
-        'Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica - Descrição Genérica',
-      ],
-      value: 129.00,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    TripProvider tripProvider = Provider.of(context);
+
+    List<TripModel> list = tripProvider.tripList;
+
     return Scaffold(
       drawer: homeDrawer(context),
       appBar: AppBar(
@@ -52,7 +38,7 @@ class _HistoryPageState extends State<HistoryPage> {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: _listHistory.length,
+        itemCount: list.length,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 8),
@@ -81,7 +67,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      _listHistory[index].origin[2],
+                                      list[index].origin_id as String,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -98,7 +84,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      _listHistory[index].destination[2],
+                                      list[index].destination_id as String,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -116,7 +102,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                   Flexible(
                                     child: Text(
                                       DateFormat('dd/MM/yyyy HH:mm')
-                                          .format(_listHistory[index].date),
+                                          .format(list[index].created_at),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -133,7 +119,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      'R\$${_listHistory[index].value.toStringAsFixed(2)}',
+                                      'R\$${list[index].value.toStringAsFixed(2)}',
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -162,8 +148,8 @@ class _HistoryPageState extends State<HistoryPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => HistoryMapPage(
-                                  origin: _listHistory[index].origin,
-                                  destination: _listHistory[index].destination,
+                                  originId: list[index].origin_id,
+                                  destinationId: list[index].destination_id,
                                 ),
                               ),
                             );
