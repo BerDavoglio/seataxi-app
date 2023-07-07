@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
 class CreateTripModel {
-  final int id;
   final int origin_id;
   final int destination_id;
   final int boattype_id;
@@ -10,7 +9,6 @@ class CreateTripModel {
   final bool private;
 
   const CreateTripModel({
-    required this.id,
     required this.origin_id,
     required this.destination_id,
     required this.boattype_id,

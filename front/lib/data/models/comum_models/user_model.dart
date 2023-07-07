@@ -12,6 +12,8 @@ class UserModel {
   final String documents_confirmed;
   final String cep;
   final int cell;
+  final DateTime created_at;
+  final DateTime updated_at;
 
   const UserModel({
     required this.id,
@@ -25,5 +27,7 @@ class UserModel {
     required this.documents_confirmed,
     required this.cep,
     required this.cell,
+    required this.created_at,
+    required this.updated_at,
   });
 }

@@ -13,8 +13,10 @@ class TripModel {
   final double value;
   final bool acceptance;
   final bool finished;
+  final DateTime created_at;
+  final DateTime updated_at;
 
-  const TripModel({
+  const TripModel(jsonDecode, {
     required this.id,
     required this.user_id,
     required this.navigator_id,
@@ -27,5 +29,7 @@ class TripModel {
     required this.value,
     required this.acceptance,
     required this.finished,
+    required this.created_at,
+    required this.updated_at,
   });
 }
