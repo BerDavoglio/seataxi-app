@@ -393,8 +393,8 @@ class TripProvider with ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
+        _trip = jsonDecode(response.body);
         notifyListeners();
-        return jsonDecode(response.body);
       } else if (jsonDecode(response.body)['errors'] != '') {
         await comumDialog(
           context,
