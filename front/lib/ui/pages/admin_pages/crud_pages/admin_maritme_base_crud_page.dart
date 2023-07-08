@@ -24,8 +24,8 @@ class _AdminMaritmeBaseCrudPageState extends State<AdminMaritmeBaseCrudPage> {
     _object = widget.object!;
 
     _titleController.text = _object.title;
-    _coordLatController.text = _object.coordLat;
-    _coordLongController.text = _object.coordLong;
+    _coordLatController.text = _object.lat.toString();
+    _coordLongController.text = _object.long.toString();
 
     super.initState();
   }

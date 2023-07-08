@@ -16,4 +16,6 @@ router.delete('/', loginRequired, userController.delete); // Delete a User
 router.put('/confirmateEmail/:id', userController.confirmateEmail);
 router.put('/confirmateNavigator/:id', loginRequired, isAdmin, userController.confirmateNavigator);
 
+router.get('/navigators/:notconfirmed', loginRequired, isAdmin, userController.indexNavigators);
+
 export default router;

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:front/infra/infra.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../data/data.dart';
 import '../../../ui.dart';
@@ -11,30 +13,6 @@ class AdminTypeListPage extends StatefulWidget {
 }
 
 class _AdminTypeListPageState extends State<AdminTypeListPage> {
-  final List<AdminTypeModel> _listData = [
-    const AdminTypeModel(
-      id: 1,
-      title: 'Barco 1',
-      description:
-          'Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!',
-      people: '20',
-    ),
-    const AdminTypeModel(
-      id: 2,
-      title: 'Barco 1',
-      description:
-          'Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!',
-      people: '20',
-    ),
-    const AdminTypeModel(
-      id: 4,
-      title: 'Barco 1',
-      description:
-          'Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!Descrição totalmente completa do tipo de barco!',
-      people: '20',
-    ),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -42,6 +20,8 @@ class _AdminTypeListPageState extends State<AdminTypeListPage> {
 
   @override
   Widget build(BuildContext context) {
+    BoattypeProvider boattypeProvider = Provider.of(context);
+
     return Scaffold(
       drawer: homeDrawer(context),
       appBar: AppBar(
@@ -61,7 +41,7 @@ class _AdminTypeListPageState extends State<AdminTypeListPage> {
       body: Center(
         child: ListView.builder(
           padding: const EdgeInsets.all(8),
-          itemCount: _listData.length,
+          itemCount: boattypeProvider.boattypeList.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.only(top: 10),
@@ -86,7 +66,7 @@ class _AdminTypeListPageState extends State<AdminTypeListPage> {
                                   fontSize: 26,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                _listData[index].title,
+                                boattypeProvider.boattypeList[index].title,
                               ),
                             ),
                             Flexible(
@@ -96,7 +76,8 @@ class _AdminTypeListPageState extends State<AdminTypeListPage> {
                                 style: const TextStyle(
                                   fontSize: 18,
                                 ),
-                                _listData[index].description,
+                                boattypeProvider
+                                    .boattypeList[index].description,
                               ),
                             ),
                             Text(
@@ -105,7 +86,7 @@ class _AdminTypeListPageState extends State<AdminTypeListPage> {
                                 fontStyle: FontStyle.italic,
                                 fontWeight: FontWeight.w600,
                               ),
-                              'Pessoas: ${_listData[index].people}',
+                              'Pessoas: ${boattypeProvider.boattypeList[index].people}',
                             ),
                           ],
                         ),
@@ -129,7 +110,7 @@ class _AdminTypeListPageState extends State<AdminTypeListPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AdminBoatTypeCrudPage(
-                                  object: _listData[index],
+                                  object: boattypeProvider.boattypeList[index],
                                 ),
                               ),
                             );
@@ -152,9 +133,11 @@ class _AdminTypeListPageState extends State<AdminTypeListPage> {
                             ),
                           ),
                           onPressed: () {
-                            setState(() {
-                              _listData.removeWhere(
-                                  (item) => item.id == _listData[index].id);
+                            setState(() async {
+                              await boattypeProvider.deleteBoattype(
+                                context,
+                                boattypeProvider.boattypeList[index].id,
+                              );
                             });
                           },
                           child: const Text(

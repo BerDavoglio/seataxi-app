@@ -15,7 +15,8 @@ class AppRoutes {
   static const ADMLISTTRAINING = '/adm/list/training';
   static const ADMLISTTYPE = '/adm/list/type';
   static const ADMLISTMARITMEBASE = '/adm/list/maritme';
-  static const ADMTRAINING = '/adm/training/crud';
+  static const ADMLISTTRIPS = '/adm/list/trips';
+  static const ADMTRAINING = '/ad/training/crud';
   static const ADMBOATTYPECRUD = '/adm/boat/crud';
   static const ADMMARITMEBASECRUD = '/adm/maritme/crud';
 }

@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 import User from '../../models/User/User_models';
@@ -7,22 +8,14 @@ class UserController {
   async store(req, res) {
     try {
       if (req.body.role || req.body.email_confirmed) {
-        return res.status(401)
-          .json({ errors: ['Unauthorized'] });
+        return res.status(401).json({ errors: ['Unauthorized'] });
       }
 
       // VERIFICAR CPF
       // VERIFICAR CELL
 
       const newUser = await User.create(req.body);
-      const {
-        photo,
-        name,
-        email,
-        cpf,
-        gender,
-        role,
-      } = newUser;
+      const { photo, name, email, cpf, gender, role } = newUser;
 
       // Send email for confirmation
 
@@ -43,7 +36,16 @@ class UserController {
   async index(req, res) {
     try {
       const users = await User.findAll({
-        attributes: ['id', 'name', 'email', 'cpf', 'role', 'gender', 'email_confirmed', 'created_at'],
+        attributes: [
+          'id',
+          'name',
+          'email',
+          'cpf',
+          'role',
+          'gender',
+          'email_confirmed',
+          'created_at',
+        ],
       });
 
       return res.json(users);
@@ -57,18 +59,10 @@ class UserController {
     try {
       const user = await User.findByPk(req.userId);
       if (!user) {
-        return res.status(400)
-          .json({ errors: ['User not Found'] });
+        return res.status(400).json({ errors: ['User not Found'] });
       }
 
-      const {
-        photo,
-        name,
-        email,
-        cpf,
-        role,
-        gender,
-      } = user;
+      const { photo, name, email, cpf, role, gender } = user;
       return res.json({
         photo,
         name,
@@ -87,32 +81,22 @@ class UserController {
     try {
       const id = req.userId;
       if (!id) {
-        return res.status(400)
-          .json({ errors: ['ID not Found'] });
+        return res.status(400).json({ errors: ['ID not Found'] });
       }
 
       const user = await User.findByPk(id);
       if (!user) {
-        return res.status(400)
-          .json({ errors: ['User not Found'] });
+        return res.status(400).json({ errors: ['User not Found'] });
       }
 
       if (req.body.password || req.body.role) {
-        return res.status(401)
-          .json({ errors: ['Unauthorized'] });
+        return res.status(401).json({ errors: ['Unauthorized'] });
       }
 
       // SE TIVER req.body.cpf, VERIFICAR CPF
 
       const newData = await user.update(req.body);
-      const {
-        photo,
-        name,
-        email,
-        cpf,
-        role,
-        gender,
-      } = newData;
+      const { photo, name, email, cpf, role, gender } = newData;
       return res.json({
         photo,
         name,
@@ -131,19 +115,16 @@ class UserController {
     try {
       const id = req.userId;
       if (!id) {
-        return res.status(400)
-          .json({ errors: ['ID not Found'] });
+        return res.status(400).json({ errors: ['ID not Found'] });
       }
 
       const user = await User.findByPk(id);
       if (!user) {
-        return res.status(400)
-          .json({ errors: ['User not Found'] });
+        return res.status(400).json({ errors: ['User not Found'] });
       }
 
       if (req.body.role) {
-        return res.status(401)
-          .json({ errors: ['Unauthorized'] });
+        return res.status(401).json({ errors: ['Unauthorized'] });
       }
 
       await user.update({
@@ -160,14 +141,12 @@ class UserController {
     try {
       const id = req.userId;
       if (!id) {
-        return res.status(400)
-          .json({ errors: ['ID not Found'] });
+        return res.status(400).json({ errors: ['ID not Found'] });
       }
 
       const user = await User.findByPk(id);
       if (!user) {
-        return res.status(400)
-          .json({ errors: ['User not Found'] });
+        return res.status(400).json({ errors: ['User not Found'] });
       }
 
       await user.destroy();
@@ -182,14 +161,12 @@ class UserController {
     try {
       const { id } = req.params;
       if (!id) {
-        return res.status(400)
-          .json({ errors: ['ID not Found'] });
+        return res.status(400).json({ errors: ['ID not Found'] });
       }
 
       const user = await User.findByPk(id);
       if (!user) {
-        return res.status(400)
-          .json({ errors: ['User not Found'] });
+        return res.status(400).json({ errors: ['User not Found'] });
       }
 
       await user.update({
@@ -209,14 +186,12 @@ class UserController {
     try {
       const { id } = req.params;
       if (!id) {
-        return res.status(400)
-          .json({ errors: ['ID not Found'] });
+        return res.status(400).json({ errors: ['ID not Found'] });
       }
 
       const user = await User.findByPk(id);
       if (!user) {
-        return res.status(400)
-          .json({ errors: ['User not Found'] });
+        return res.status(400).json({ errors: ['User not Found'] });
       }
 
       await user.update({
@@ -226,6 +201,31 @@ class UserController {
       return res.json({
         message: 'Navigator Confirmed',
       });
+    } catch (err) {
+      return res.status(400).json({ errors: err.message });
+    }
+  }
+
+  async indexNavigators(req, res) {
+    try {
+      let users;
+
+      if (req.params.notconfirmed === 1) {
+        users = await User.findAll({
+          where: {
+            role: 'navigator',
+            documents_confirmed: false,
+          },
+        });
+      } else {
+        users = await User.findAll({
+          where: {
+            role: 'navigator',
+          },
+        });
+      }
+
+      return res.json(users);
     } catch (err) {
       return res.status(400).json({ errors: err.message });
     }

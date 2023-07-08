@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../data/data.dart';
+import '../../../../infra/infra.dart';
 import '../../../ui.dart';
 
 class AdminMaritmeListPage extends StatefulWidget {
@@ -11,27 +13,6 @@ class AdminMaritmeListPage extends StatefulWidget {
 }
 
 class _AdminMaritmeListPageState extends State<AdminMaritmeListPage> {
-  final List<AdminMaritmeModel> _listData = [
-    const AdminMaritmeModel(
-      id: 1,
-      title: 'Base 1',
-      coordLat: '31.438792',
-      coordLong: '3,32871394821',
-    ),
-    const AdminMaritmeModel(
-      id: 2,
-      title: 'Base 2',
-      coordLat: '31.438792',
-      coordLong: '3,32871394821',
-    ),
-    const AdminMaritmeModel(
-      id: 3,
-      title: 'Base 3',
-      coordLat: '31.438792',
-      coordLong: '3,32871394821',
-    ),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -39,6 +20,10 @@ class _AdminMaritmeListPageState extends State<AdminMaritmeListPage> {
 
   @override
   Widget build(BuildContext context) {
+    MaritmebaseProvider maritmebaseProvider = Provider.of(context);
+
+    List<AdminMaritmeModel> list = maritmebaseProvider.maritmebasePublicList;
+
     return Scaffold(
       drawer: homeDrawer(context),
       appBar: AppBar(
@@ -58,7 +43,7 @@ class _AdminMaritmeListPageState extends State<AdminMaritmeListPage> {
       body: Center(
         child: ListView.builder(
           padding: const EdgeInsets.all(8),
-          itemCount: _listData.length,
+          itemCount: list.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.only(top: 10),
@@ -83,7 +68,7 @@ class _AdminMaritmeListPageState extends State<AdminMaritmeListPage> {
                                   fontSize: 26,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                _listData[index].title,
+                                list[index].title,
                               ),
                             ),
                             Flexible(
@@ -91,7 +76,7 @@ class _AdminMaritmeListPageState extends State<AdminMaritmeListPage> {
                                 style: const TextStyle(
                                   fontSize: 16,
                                 ),
-                                '${_listData[index].coordLat} / ${_listData[index].coordLong}',
+                                '${list[index].lat} / ${list[index].long}',
                               ),
                             ),
                           ],
@@ -116,7 +101,7 @@ class _AdminMaritmeListPageState extends State<AdminMaritmeListPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AdminMaritmeBaseCrudPage(
-                                  object: _listData[index],
+                                  object: list[index],
                                 ),
                               ),
                             );
@@ -139,9 +124,11 @@ class _AdminMaritmeListPageState extends State<AdminMaritmeListPage> {
                             ),
                           ),
                           onPressed: () {
-                            setState(() {
-                              _listData.removeWhere(
-                                  (item) => item.id == _listData[index].id);
+                            setState(() async {
+                              await maritmebaseProvider.deleteMaritmebase(
+                                context,
+                                list[index].id,
+                              );
                             });
                           },
                           child: const Text(
@@ -172,8 +159,8 @@ class _AdminMaritmeListPageState extends State<AdminMaritmeListPage> {
                 object: AdminMaritmeModel(
                   id: 0,
                   title: '',
-                  coordLat: '',
-                  coordLong: '',
+                  lat: 0,
+                  long: 0,
                 ),
               ),
             ),

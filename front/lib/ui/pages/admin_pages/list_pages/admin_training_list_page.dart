@@ -131,10 +131,11 @@ class _AdminTrainingListPageState extends State<AdminTrainingListPage> {
                             ),
                           ),
                           onPressed: () {
-                            setState(() {
-                              treineeProvider.treineeList.removeWhere((item) =>
-                                  item.id ==
-                                  treineeProvider.treineeList[index].id);
+                            setState(() async {
+                              await treineeProvider.deleteTreinee(
+                                context,
+                                treineeProvider.treineeList[index].id,
+                              );
                             });
                           },
                           child: const Text(

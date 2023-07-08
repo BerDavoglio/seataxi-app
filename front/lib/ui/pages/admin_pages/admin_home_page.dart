@@ -39,6 +39,31 @@ class AdminHomePage extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.of(context)
+                            .pushNamed(AppRoutes.ADMLISTTRIPS);
+                      },
+                      child: const Text(
+                        'LISTAGEM DE VIAGENS',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: SizedBox(
+                    width: 300,
+                    height: 100,
+                    child: TextButton(
+                      style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(Colors.amber),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context)
                             .pushNamed(AppRoutes.ADMLISTNAVIGATORS);
                       },
                       child: const Text(

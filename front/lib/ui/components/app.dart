@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.ADMLISTTRAINING: (_) => const AdminTrainingListPage(),
           AppRoutes.ADMLISTMARITMEBASE: (_) => const AdminMaritmeListPage(),
           AppRoutes.ADMLISTTYPE: (_) => const AdminTypeListPage(),
+          AppRoutes.ADMLISTTRIPS: (_) => const AdminTripsListPage(),
           AppRoutes.ADMTRAINING: (_) => const AdminTrainingCrudPage(),
           AppRoutes.ADMMARITMEBASECRUD: (_) => const AdminMaritmeBaseCrudPage(),
           AppRoutes.ADMBOATTYPECRUD: (_) => const AdminBoatTypeCrudPage(),

@@ -5,15 +5,15 @@ class NavigatorTrainingModel {
   final String link;
   final String title;
   final String description;
-  final DateTime created_at;
-  final DateTime updated_at;
+  final DateTime? created_at;
+  final DateTime? updated_at;
 
   const NavigatorTrainingModel({
     required this.id,
     required this.link,
     required this.title,
     required this.description,
-    required this.created_at,
-    required this.updated_at,
+    this.created_at,
+    this.updated_at,
   });
 }

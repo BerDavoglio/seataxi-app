@@ -11,8 +11,6 @@ import '../../../ui/ui.dart';
 import '../../infra.dart';
 
 class MaritmebaseProvider with ChangeNotifier {
-  late List<AdminMaritmeModel> _maritmebaseList;
-  List<AdminMaritmeModel> get maritmebaseList => _maritmebaseList;
   late List<AdminMaritmeModel> _maritmebasePublicList;
   List<AdminMaritmeModel> get maritmebasePublicList => _maritmebasePublicList;
 
@@ -85,7 +83,6 @@ class MaritmebaseProvider with ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        _maritmebaseList = jsonDecode(response.body);
         _maritmebasePublicList = jsonDecode(response.body);
         notifyListeners();
       } else if (jsonDecode(response.body)['errors'] != '') {
@@ -259,22 +256,5 @@ class MaritmebaseProvider with ChangeNotifier {
         },
       );
     }
-  }
-
-  Future<void> comumDialog(
-      BuildContext context, String title, String content, Function func) {
-    return showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(title),
-        content: Text(content),
-        actions: [
-          TextButton(
-            onPressed: func(),
-            child: const Text('Ok'),
-          ),
-        ],
-      ),
-    );
   }
 }
