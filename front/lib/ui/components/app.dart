@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
           AppRoutes.PERFIL: (_) => const PerfilPage(),
           AppRoutes.HISTORY: (_) => const HistoryPage(),
           AppRoutes.NAVHOME: (_) => const NavigatorHomePage(),
-          AppRoutes.NAVROUTE: (_) => const NavigatorRoutePage(),
           AppRoutes.NAVTRAINING: (_) => const NavigatorTrainingPage(),
           AppRoutes.ADMHOME: (_) => const AdminHomePage(),
           AppRoutes.ADMLISTNAVIGATORS: (_) => const AdminNavigatorListPage(),

@@ -3,12 +3,12 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 
 import '../../../infra/infra.dart';
-import '../../ui.dart';
 
 FractionallySizedBox navigatorHomeSendValue(
   BuildContext context,
   int? acceptTravelID,
   TextEditingController valueController,
+  Function sendValueFunc,
 ) {
   TripProvider tripProvider = Provider.of(context);
 
@@ -117,31 +117,7 @@ FractionallySizedBox navigatorHomeSendValue(
                     Colors.green,
                   ),
                 ),
-                onPressed: () async {
-                  await tripProvider
-                      .updateValue(
-                    context,
-                    acceptTravelID,
-                    double.parse(valueController.text),
-                  )
-                      .then(
-                    (value) async {
-                      await tripProvider
-                          .indexTrip(
-                            context,
-                            acceptTravelID,
-                          )
-                          .then(
-                            (value) => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const IdleHomePage(),
-                              ),
-                            ),
-                          );
-                    },
-                  );
-                },
+                onPressed: sendValueFunc(),
                 child: const Text(
                   'Enviar Valor',
                 ),

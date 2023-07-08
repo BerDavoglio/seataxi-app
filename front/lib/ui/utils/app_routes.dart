@@ -8,7 +8,6 @@ class AppRoutes {
   static const HISTORY = '/history';
 
   static const NAVHOME = '/navigator/';
-  static const NAVROUTE = '/navigator/route';
   static const NAVTRAINING = '/navigator/training';
 
   static const ADMHOME = '/adm/';

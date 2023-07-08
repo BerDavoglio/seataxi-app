@@ -61,6 +61,22 @@ class _NavigatorHomePageState extends State<NavigatorHomePage> {
               context,
               _acceptTravelID,
               _valueController,
+              () async {
+                await tripProvider
+                    .updateValue(
+                  context,
+                  _acceptTravelID!,
+                  double.parse(_valueController.text),
+                )
+                    .then(
+                  (value) async {
+                    await tripProvider.indexTrip(
+                      context,
+                      _acceptTravelID!,
+                    );
+                  },
+                );
+              },
             )
         ],
       ),

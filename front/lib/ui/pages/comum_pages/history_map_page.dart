@@ -92,7 +92,7 @@ class _HistoryMapPageState extends State<HistoryMapPage> {
                 ),
               ),
               Marker(
-                markerId: const MarkerId('Origin'),
+                markerId: const MarkerId('Destination'),
                 position: LatLng(
                   list[indexDestination].lat,
                   list[indexDestination].long,
