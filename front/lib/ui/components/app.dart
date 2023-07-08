@@ -34,9 +34,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromRGBO(22, 58, 89, 1),
+          scaffoldBackgroundColor: const Color.fromRGBO(217, 217, 217, 1),
           colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: const Color.fromRGBO(217, 217, 217, 1),
+            primary: const Color.fromRGBO(22, 58, 89, 1),
           ),
         ),
         routes: {
